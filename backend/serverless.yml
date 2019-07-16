@@ -1,0 +1,87 @@
+service:
+  name: zapling
+
+custom:
+  usersTableName: zapling-users-${opt:stage, self:provider.stage}
+
+plugins:
+  - serverless-webpack
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: ${opt:region, 'eu-west-1'}
+  stage: ${opt:stage, 'dev'}
+  environment:
+    ENV: ${self:provider.stage}
+    REGION: ${self:provider.region}
+    USERS_TABLE_NAME: ${self:custom.usersTableName}
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - 'dynamodb:*'
+      Resource:
+        - arn:aws:dynamodb:*:*:table/${self:custom.usersTableName}
+
+functions:
+  login:
+    handler: src/api.login
+    events:
+      - http:
+          method: post
+          path: login
+          cors: true
+  signup:
+    handler: src/api.signup
+    events:
+      - http:
+          method: post
+          path: signup
+          cors: true
+  me:
+    handler: src/api.me
+    events:
+      - http:
+          method: get
+          path: me
+          cors: true
+  plantTree:
+    handler: src/webhook.zappierPlantTree
+    events:
+      - http:
+          method: post
+          path: plant-tree
+          cors: true
+
+resources:
+  Resources:
+    UsersDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: email
+            AttributeType: S
+          - AttributeName: apiKey
+            AttributeType: S
+        KeySchema:
+          - AttributeName: email
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: apiKeyIndex
+            KeySchema:
+              - AttributeName: apiKey
+                KeyType: HASH
+            Projection:
+              NonKeyAttributes:
+                - email
+                - trees
+                - credit
+              ProjectionType: INCLUDE
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:custom.usersTableName}

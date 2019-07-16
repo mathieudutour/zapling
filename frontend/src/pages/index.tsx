@@ -9,10 +9,10 @@ import { AuthContextConsumer } from '../components/auth-context'
 const DashboardLinkOrLogin = () => {
   return (
     <AuthContextConsumer>
-      {({ status, login }) => {
+      {({ status, login, user }) => {
         switch (status) {
           case 'in':
-            return 'Dashboard'
+            return `Dashboard. API Key to copy paste in zapier to authenticate: ${user.apiKey}`
           case 'out':
             return (
               <>

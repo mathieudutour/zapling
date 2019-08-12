@@ -13,6 +13,7 @@ export type User = {
   trees: number
   credit: number
   stripeId?: string
+  subscriptionId?: string
 
   lastSeenAt: number
   createdAt?: number
@@ -30,7 +31,8 @@ export const findUserByApiKey = async (
   const meta = await db
     .scan({
       TableName: process.env.USERS_TABLE_NAME,
-      ProjectionExpression: 'email, apiKey, trees, credit',
+      ProjectionExpression:
+        'email, apiKey, trees, credit, subscriptionId, stripeId',
       FilterExpression: 'apiKey = :apiKey',
       ExpressionAttributeValues: {
         ':apiKey': String(apiKey),

@@ -1,6 +1,14 @@
 import * as bcrypt from 'bcryptjs'
-import { findUserByApiKey, findUserByEmail, createUser } from './storage'
+import * as Stripe from 'stripe'
+import {
+  findUserByApiKey,
+  findUserByEmail,
+  createUser,
+  updateUser,
+} from './storage'
 import { _handler } from './_handler'
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
 class BadRequest extends Error {
   status = 400
@@ -51,6 +59,61 @@ export const signup = _handler(async event => {
 
   return {
     data,
+  }
+})
+
+export const subscribe = _handler(async event => {
+  let { apiKey, token } = JSON.parse(event.body)
+  if (!apiKey || !token) {
+    throw new BadRequest('Missing parameter')
+  }
+
+  const existingUser = await findUserByApiKey(apiKey)
+
+  if (!existingUser) {
+    throw new NotFound('Could not find the user')
+  }
+
+  if (!existingUser.stripeId) {
+    const customer = await stripe.customers.create({
+      email: existingUser.email,
+      source: token,
+      metadata: {},
+    })
+
+    await updateUser(existingUser, {
+      stripeId: customer.id,
+    })
+
+    existingUser.stripeId = customer.id
+  } else {
+    await stripe.customers.update(existingUser.stripeId, {
+      email: existingUser.email,
+      source: token,
+      metadata: {},
+    })
+  }
+
+  if (existingUser.subscriptionId) {
+    // there is already a subscription so we just needed to update the source
+    return { message: 'already have a subscription, all good' }
+  }
+
+  const subscription = await stripe.subscriptions.create({
+    customer: existingUser.stripeId,
+    items: [
+      {
+        plan: 'meteredtreeplanted',
+      },
+    ],
+  })
+
+  await updateUser(existingUser, {
+    subscriptionId: subscription.id,
+  })
+
+  return {
+    message: 'subscribed!',
   }
 })
 

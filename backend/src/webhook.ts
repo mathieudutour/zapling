@@ -1,5 +1,8 @@
-import { findUserByApiKey, updateUser } from './storage'
+import * as Stripe from 'stripe'
+import { findUserByApiKey, findUserByEmail, updateUser } from './storage'
 import { _handler } from './_handler'
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
 class BadRequest extends Error {
   status = 400
@@ -10,7 +13,7 @@ class NotFound extends Error {
 }
 
 export const zappierPlantTree = _handler(async event => {
-  let { apiKey } = event.queryStringParameters
+  let { apiKey, trees } = event.queryStringParameters
   if (!apiKey) {
     throw new BadRequest('Missing `apiKey` query parameter')
   }
@@ -21,12 +24,97 @@ export const zappierPlantTree = _handler(async event => {
     throw new NotFound('Could not find the user')
   }
 
+  if (!data.subscriptionId) {
+    throw new BadRequest('The user is not subscribed')
+  }
+
+  const quantity = typeof trees !== 'undefined' ? parseInt(trees, 10) : 1
+
+  await stripe.usageRecords.create(data.subscriptionId, {
+    quantity,
+    timestamp: Date.now(),
+  })
+
   data = await updateUser(data, {
-    trees: data.trees + 1,
-    credit: data.credit - 1,
+    trees: data.trees + quantity,
+    credit: data.credit - quantity,
   })
 
   return {
     trees: data.trees,
+  }
+})
+
+function isSubscription(
+  object: Stripe.IObject
+): object is Stripe.subscriptions.ISubscription {
+  return object.object === 'subscription'
+}
+
+export const stripeWebhook = _handler(async event => {
+  let sig = event.headers['Stripe-Signature']
+  let stripeEvent: Stripe.events.IEvent
+
+  try {
+    stripeEvent = stripe.webhooks.constructEvent(
+      event.body,
+      sig,
+      process.env.STRIPE_ENDPOINT_SECRET
+    )
+  } catch (err) {
+    throw new BadRequest(err.message)
+  }
+
+  switch (stripeEvent.type) {
+    case 'customer.subscription.deleted': {
+      const subscription = stripeEvent.data.object
+      if (isSubscription(subscription) && subscription.status !== 'active') {
+        const customer = await stripe.customers.retrieve(
+          subscription.customer as string
+        )
+        const user = await findUserByEmail(customer.email)
+        if (!user) {
+          return {
+            message: 'missing user',
+          }
+        }
+
+        await updateUser(user, {
+          subscriptionId: undefined,
+        })
+
+        return {
+          message: 'removed subscription',
+        }
+      }
+    }
+    case 'invoice.payment_succeeded': {
+      const subscription = stripeEvent.data.object
+      if (isSubscription(subscription)) {
+        const customer = await stripe.customers.retrieve(
+          subscription.customer as string
+        )
+        const user = await findUserByEmail(customer.email)
+        if (!user) {
+          return {
+            message: 'missing user',
+          }
+        }
+
+        // TODO: send command to plant trees
+
+        await updateUser(user, {
+          credit: 0,
+        })
+
+        return {
+          message: 'got it',
+        }
+      }
+    }
+    default:
+      return {
+        message: 'I am not handling that',
+      }
   }
 })

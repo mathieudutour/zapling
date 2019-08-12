@@ -16,6 +16,8 @@ provider:
     ENV: ${self:provider.stage}
     REGION: ${self:provider.region}
     USERS_TABLE_NAME: ${self:custom.usersTableName}
+    STRIPE_SECRET_KEY: ${file(./config.${self:provider.stage}.yml):STRIPE_SECRET_KEY}
+    STRIPE_ENDPOINT_SECRET: ${file(./config.${self:provider.stage}.yml):STRIPE_ENDPOINT_SECRET}
   iamRoleStatements:
     - Effect: 'Allow'
       Action:
@@ -38,6 +40,14 @@ functions:
           method: post
           path: signup
           cors: true
+  subscribe:
+    handler: src/api.subscribe
+    timeout: 30
+    events:
+      - http:
+          method: post
+          path: subscribe
+          cors: true
   me:
     handler: src/api.me
     events:
@@ -51,6 +61,14 @@ functions:
       - http:
           method: post
           path: plant-tree
+          cors: true
+  stripe:
+    handler: src/webhook.stripeWebhook
+    timeout: 30
+    events:
+      - http:
+          method: post
+          path: stripe
           cors: true
 
 resources:
@@ -77,6 +95,8 @@ resources:
                 - email
                 - trees
                 - credit
+                - subscriptionId
+                - stripeId
               ProjectionType: INCLUDE
             ProvisionedThroughput:
               ReadCapacityUnits: 1

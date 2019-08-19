@@ -18,6 +18,8 @@ provider:
     USERS_TABLE_NAME: ${self:custom.usersTableName}
     STRIPE_SECRET_KEY: ${file(./config.${self:provider.stage}.yml):STRIPE_SECRET_KEY}
     STRIPE_ENDPOINT_SECRET: ${file(./config.${self:provider.stage}.yml):STRIPE_ENDPOINT_SECRET}
+    AIRTABLE_API_KEY: ${file(./config.${self:provider.stage}.yml):AIRTABLE_API_KEY}
+    AIRTABLE_TABLE_ID: ${file(./config.${self:provider.stage}.yml):AIRTABLE_TABLE_ID}
   iamRoleStatements:
     - Effect: 'Allow'
       Action:

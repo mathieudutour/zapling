@@ -1,8 +1,13 @@
 import * as Stripe from 'stripe'
+import * as Airtable from 'airtable'
 import { findUserByApiKey, findUserByEmail, updateUser } from './storage'
 import { _handler } from './_handler'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+const airtable = new Airtable({
+  endpointUrl: 'https://api.airtable.com',
+  apiKey: process.env.AIRTABLE_API_KEY,
+}).base(process.env.AIRTABLE_TABLE_ID)
 
 class BadRequest extends Error {
   status = 400
@@ -10,6 +15,22 @@ class BadRequest extends Error {
 
 class NotFound extends Error {
   status = 404
+}
+
+async function getNumberOfTrees(
+  subscription: Stripe.subscriptions.ISubscription,
+  starting_after?: string
+): Promise<number> {
+  const list = await stripe.usageRecordSummaries.list(subscription.id, {
+    starting_after: starting_after,
+  })
+
+  return (
+    list.data.reduce((prev, x) => prev + x.total_usage, 0) +
+    (list.has_more
+      ? await getNumberOfTrees(subscription, list.data[list.data.length - 1].id)
+      : 0)
+  )
 }
 
 export const zappierPlantTree = _handler(async event => {
@@ -101,10 +122,18 @@ export const stripeWebhook = _handler(async event => {
           }
         }
 
-        // TODO: send command to plant trees
+        const numberOfTrees = await getNumberOfTrees(subscription)
+
+        await airtable('Ledger').create({
+          Timestamp: new Date(
+            subscription.latest_invoice.period_end
+          ).toISOString(),
+          'Number of trees': numberOfTrees,
+          'Stripe ID': user.stripeId,
+        })
 
         await updateUser(user, {
-          credit: 0,
+          credit: user.credit - numberOfTrees,
         })
 
         return {

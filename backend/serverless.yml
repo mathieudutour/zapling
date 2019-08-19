@@ -88,7 +88,7 @@ resources:
           - AttributeName: email
             KeyType: HASH
         GlobalSecondaryIndexes:
-          - IndexName: apiKeyIndex
+          - IndexName: indexByApiKey
             KeySchema:
               - AttributeName: apiKey
                 KeyType: HASH

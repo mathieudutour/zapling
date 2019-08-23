@@ -33,6 +33,13 @@ function SEO({ description, lang, meta, title }) {
       }}
       title={title}
       titleTemplate={`%s | ${site.siteMetadata.title}`}
+      link={[
+        {
+          href:
+            'https://fonts.googleapis.com/css?family=Lato:400,700,900&display=swap',
+          rel: 'stylesheet',
+        },
+      ]}
       meta={[
         {
           name: `description`,

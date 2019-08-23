@@ -1,0 +1,13 @@
+.footer {
+  background: #f2f2f2;
+  padding: 32px 0;
+}
+
+.footer p:first-child {
+  opacity: 0.5;
+}
+
+.footer a {
+  color: #27ae60;
+  text-decoration: none;
+}

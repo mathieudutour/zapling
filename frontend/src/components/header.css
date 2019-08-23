@@ -1,0 +1,27 @@
+.header {
+  display: flex;
+  max-width: 1196px;
+  margin: auto;
+  align-content: center;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 34px;
+}
+
+.header .nav a {
+  color: #27ae60;
+  text-transform: uppercase;
+  font-weight: 900;
+  text-decoration: none;
+  padding: 8px 12px;
+}
+
+.header .nav a.full {
+  color: white;
+  background: #27ae60;
+  border-radius: 22.5px;
+  padding: 8px 29px;
+  text-transform: uppercase;
+  font-weight: 900;
+  text-decoration: none;
+}

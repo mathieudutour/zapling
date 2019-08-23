@@ -1,0 +1,144 @@
+.wrapper {
+  max-width: 1196px;
+  margin: auto;
+}
+
+.hero {
+  text-align: center;
+  max-width: 1196px;
+  margin: auto;
+  margin-top: 127px;
+  margin-bottom: 146px;
+  line-height: 44px;
+  font-size: 30px;
+}
+
+.hero .intro {
+  opacity: 0.3;
+  text-transform: uppercase;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  font-size: 20px;
+}
+
+.hero h1 {
+  font-size: 65px;
+  font-weight: 900;
+  letter-spacing: 0;
+  margin-bottom: 27px;
+}
+
+.how-does-it-work {
+  background: #27ae60;
+  padding: 73px 0;
+  color: white;
+  font-size: 30px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+h2 {
+  display: inline-block;
+  text-transform: uppercase;
+  font-weight: 900;
+  font-size: 24px;
+  letter-spacing: 3px;
+}
+h2::after {
+  content: '';
+  width: 60px;
+  height: 6px;
+  background: currentColor;
+  position: relative;
+  display: block;
+  top: -15px;
+  left: calc(100% + 20px);
+}
+
+.how-does-it-work ol {
+  list-style: none;
+  counter-reset: work-counter;
+  margin: 0;
+  letter-spacing: 3px;
+  max-width: 800px;
+}
+
+.how-does-it-work ol li {
+  counter-increment: work-counter;
+}
+
+.how-does-it-work ol li::before {
+  content: counter(work-counter) '. ';
+  opacity: 0.5;
+  font-size: 50px;
+  display: block;
+}
+
+.who-plants-the-trees {
+  padding: 91px 0 110px;
+  font-size: 24px;
+  line-height: 32px;
+}
+
+.who-plants-the-trees .big {
+  font-size: 34px;
+  line-height: 50px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.who-plants-the-trees a {
+  color: #27ae60;
+  text-decoration: none;
+}
+
+.how-much-cost {
+  padding: 81px 0 88px;
+  font-size: 24px;
+  line-height: 32px;
+  background: #f2f2f2;
+}
+
+.how-much-cost .big {
+  font-size: 34px;
+  line-height: 50px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+h3 {
+  font-size: 50px;
+  font-weight: 900;
+  opacity: 0.2;
+  margin-bottom: 0;
+}
+
+.how-much-cost strong {
+  color: #eb5757;
+  font-weight: 900;
+}
+
+.why-do-this {
+  color: white;
+  padding: 73px 0 97px;
+  font-size: 30px;
+  background: #27ae60;
+}
+
+.example-zaps {
+  padding: 98px 0 78px;
+  font-size: 24px;
+}
+
+.example-zaps .example p:first-child {
+  font-size: 34px;
+  font-weight: 900;
+  margin: 0;
+  margin-bottom: 10px;
+}
+.example-zaps .example p:last-child {
+  color: #27ae60;
+  font-weight: 900;
+}

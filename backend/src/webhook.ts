@@ -33,7 +33,7 @@ async function getNumberOfTrees(
   )
 }
 
-export const zappierPlantTree = _handler(async event => {
+export const zapierPlantTree = _handler(async event => {
   let { apiKey, trees } = event.queryStringParameters
   if (!apiKey) {
     throw new BadRequest('Missing `apiKey` query parameter')

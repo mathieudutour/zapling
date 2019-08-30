@@ -9,7 +9,7 @@ export type User = {
   verified: boolean
   emailToken: string
 
-  apiKey: string // used by zappier
+  apiKey: string // used by zapier
   trees: number
   credit: number
   stripeId?: string

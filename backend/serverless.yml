@@ -58,7 +58,7 @@ functions:
           path: me
           cors: true
   plantTree:
-    handler: src/webhook.zappierPlantTree
+    handler: src/webhook.zapierPlantTree
     events:
       - http:
           method: post

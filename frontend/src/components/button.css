@@ -3,16 +3,26 @@
   border-radius: 28px;
   border: 4px solid #27ae60;
   color: #27ae60;
+  cursor: pointer;
   font-size: 19px;
   font-weight: 700;
   padding: 7px 27px;
   text-transform: uppercase;
 }
 
+.button:hover {
+  background: #27ae60;
+  color: white;
+}
+
 .button.full {
   color: white;
   border: 0;
   background: #27ae60;
+}
+
+.button.full:hover {
+  opacity: 0.8;
 }
 
 .button.red {
@@ -23,6 +33,11 @@
   font-weight: 700;
   padding: 6px 27px;
   background: transparent;
+}
+
+.button.red:hover {
+  background: #eb5757;
+  color: white;
 }
 
 .button.full.red {

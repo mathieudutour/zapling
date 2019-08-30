@@ -1,19 +1,42 @@
 .header {
-  display: flex;
-  max-width: 1196px;
-  margin: auto;
   align-content: center;
   align-items: center;
+  display: flex;
   justify-content: space-between;
-  margin-top: 34px;
+  margin: 34px auto 0;
+  max-width: 1196px;
+}
+
+@media only screen and (max-width: 1196px) {
+  .header {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+}
+
+@media only screen and (max-width: 690px) {
+  .header {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .header > a {
+    margin-bottom: 20px;
+  }
 }
 
 .header .nav a {
   color: #27ae60;
-  text-transform: uppercase;
+  font-size: 16px;
   font-weight: 900;
-  text-decoration: none;
+  margin: 0 12px;
   padding: 8px 12px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.header a:hover {
+  opacity: 0.8;
 }
 
 .header .nav a.full {
@@ -24,4 +47,10 @@
   text-transform: uppercase;
   font-weight: 900;
   text-decoration: none;
+}
+
+@media only screen and (max-width: 510px) {
+  .header .nav a.full {
+    display: none;
+  }
 }

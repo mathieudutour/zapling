@@ -3,14 +3,25 @@
   margin: auto;
 }
 
+@media only screen and (max-width: 1196px) {
+  .wrapper {
+    margin: 0 20px;
+  }
+}
+
 .hero {
   text-align: center;
   max-width: 1196px;
-  margin: auto;
-  margin-top: 127px;
-  margin-bottom: 146px;
+  margin: 127px auto 146px;
   line-height: 44px;
   font-size: 30px;
+}
+
+@media only screen and (max-width: 1196px) {
+  .hero {
+    margin-bottom: 75px;
+    margin-top: 55px;
+  }
 }
 
 .hero .intro {
@@ -26,6 +37,16 @@
   font-weight: 900;
   letter-spacing: 0;
   margin-bottom: 27px;
+}
+
+@media only screen and (max-width: 1000px) {
+  .hero h1 {
+    font-size: 44px;
+  }
+
+  .hero p {
+    font-size: 24px;
+  }
 }
 
 .how-does-it-work {
@@ -88,6 +109,13 @@ h2::after {
   letter-spacing: 2px;
 }
 
+@media only screen and (max-width: 1000px) {
+  .who-plants-the-trees .big {
+    font-size: 24px;
+    line-height: 30px;
+  }
+}
+
 .who-plants-the-trees a {
   color: #27ae60;
   text-decoration: none;
@@ -106,6 +134,13 @@ h2::after {
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 2px;
+}
+
+@media only screen and (max-width: 1000px) {
+  .how-much-cost .big {
+    font-size: 24px;
+    line-height: 30px;
+  }
 }
 
 h3 {
@@ -127,18 +162,55 @@ h3 {
   background: #27ae60;
 }
 
+.why-do-this h3 {
+  opacity: 0.5;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  letter-spacing: 1.8px;
+}
+
+.why-do-this p {
+  margin-bottom: 44px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  font-size: 28px;
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+@media only screen and (max-width: 1000px) {
+  .why-do-this h3 {
+    font-size: 33px;
+  }
+
+  .why-do-this p {
+    font-size: 22px;
+  }
+}
+
 .example-zaps {
   padding: 98px 0 78px;
   font-size: 24px;
 }
 
+.example-zaps p {
+  margin-bottom: 20px;
+}
+
+.example-zaps .example {
+  margin-bottom: 40px;
+}
+
 .example-zaps .example p:first-child {
   font-size: 34px;
+  letter-spacing: 1.8px;
   font-weight: 900;
-  margin: 0;
-  margin-bottom: 10px;
+  margin: 0 0 12px;
+  text-transform: uppercase;
 }
+
 .example-zaps .example p:last-child {
+  text-transform: uppercase;
   color: #27ae60;
   font-weight: 900;
 }

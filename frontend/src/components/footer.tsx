@@ -8,14 +8,18 @@ export default function Footer() {
       <div className="wrapper">
         <p>
           Zapling was built as part of{' '}
-          <a href="" target="_blank" rel="no-referrer">
+          <a href="https://fixathon.io/" target="_blank" rel="no-referrer">
             The Climate Fixathon
           </a>
           .
         </p>
-        <p>
-          If you’d like to support the running of the service, please{' '}
-          <a href="" target="_blank" rel="no-referrer">
+        <p style={{ margin: '0' }}>
+          If you’d like to support the running of Zapling, please{' '}
+          <a
+            href="https://www.buymeacoffee.com/xnJClkByV"
+            target="_blank"
+            rel="no-referrer"
+          >
             buy us a coffee
           </a>
           !

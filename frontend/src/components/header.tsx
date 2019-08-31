@@ -1,24 +1,47 @@
-import { Link } from 'gatsby'
 import React from 'react'
+import { Link, navigate } from 'gatsby'
 
 import Logo from './logo'
+import Button from './button'
+import { useGlobalState } from '../store'
+import { logout } from '../utils/auth'
 
 import './header.css'
 
-const Header = () => (
-  <header className="header">
-    <Link to="/">
-      <Logo />
-    </Link>
-    <nav className="nav">
-      <Link to="/">Home</Link>
-      <Link to="#pricing">Pricing</Link>
-      <Link to="/login">Login</Link>
-      <Link to="/signup" className="full">
-        Signup
+const Header = () => {
+  const [user] = useGlobalState('user')
+
+  return (
+    <header className="header">
+      <Link to="/">
+        <Logo />
       </Link>
-    </nav>
-  </header>
-)
+      <nav className="nav">
+        {user ? (
+          <Link to="/dashboard">Dashboard</Link>
+        ) : (
+          <Link to="/">Home</Link>
+        )}
+        {!user && <Link to="#pricing">Pricing</Link>}
+        {!user && <Link to="/login">Login</Link>}
+        {user ? (
+          <Button
+            full
+            onClick={async e => {
+              e.preventDefault()
+              await logout()
+            }}
+          >
+            Log out
+          </Button>
+        ) : (
+          <Link to="/signup" className="full">
+            Signup
+          </Link>
+        )}
+      </nav>
+    </header>
+  )
+}
 
 export default Header

@@ -1,23 +1,25 @@
 import React from 'react'
 import { navigate } from 'gatsby'
 
-import { withAuth } from '../components/with-auth'
 import Layout from '../components/layout'
 import SignupForm from '../components/signup-form'
 import SEO from '../components/seo'
+import { useGlobalState } from '../store'
+import { withAuth } from '../utils/auth'
 
-import './index.css'
+const SignupPage = () => {
+  const [user] = useGlobalState('user')
 
-const SignupPage = ({ status, user, signup }) => {
   // If the user is logged in, navigate to the dashboard
-  if (status == 'in' && !!user) {
+  if (user) {
     navigate('/')
+    return null
   }
 
   return (
     <Layout>
       <SEO title="Sign up" />
-      <SignupForm onSignup={signup} />
+      <SignupForm />
     </Layout>
   )
 }

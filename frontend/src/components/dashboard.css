@@ -1,0 +1,38 @@
+.stripe-notice {
+  background: rgba(39, 174, 96, 0.2);
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.stripe-notice p {
+  margin: 0 0 14px;
+}
+
+.banner {
+  background: #27ae60;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+
+.banner::before {
+  content: '→ ';
+}
+
+.banner::after {
+  content: ' ←';
+}
+
+.your-trees h4 {
+  margin: 0 0 10px;
+}
+
+.your-trees p {
+  margin: 0;
+}
+
+.your-trees p.big {
+  font-size: 50px;
+  font-weight: 700;
+  padding-top: 10px;
+}

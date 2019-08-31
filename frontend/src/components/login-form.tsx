@@ -1,11 +1,9 @@
 import React from 'react'
 import Button from './button'
+import User from '../models/user'
+import { login } from '../utils/auth'
 
-type Props = {
-  onLogin: (email: String, apiKey: String, trees: Number) => void
-}
-
-const LoginForm: React.FC<Props> = ({ onLogin }) => {
+const LoginForm = () => {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const email = e.target[0].value
@@ -29,8 +27,8 @@ const LoginForm: React.FC<Props> = ({ onLogin }) => {
         }
         throw new Error(data.message)
       })
-      .then(({ data }) => {
-        onLogin(data.email, data.apiKey, data.trees)
+      .then(async ({ data }) => {
+        await login(new User(data))
       })
       .catch(async message => {
         alert(message)

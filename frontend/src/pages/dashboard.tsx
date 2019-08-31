@@ -16,15 +16,18 @@ const DashboardPage = ({ location }) => {
     return null
   }
 
+  // in case we are redirected from the Stripe checkout,
+  // there will be ?session_id in the URL.
+  // given there might not be a `subscriptionId` on the User yet (because of
+  // race conditions, the subscription being creating in a webhook), we are
+  // going to hide the notice if we have the session_id
+  const hideStripNotice =
+    ((location || { search: '' }).search || '').indexOf('?session_id') !== -1
+
   return (
     <Layout>
       <SEO title="Dashboard" />
-      <Dashboard
-        hideNoCheckoutWarning={
-          ((location || { search: '' }).search || '').indexOf('?session_id') !==
-          -1
-        }
-      />
+      <Dashboard hideStripNotice={hideStripNotice} />
     </Layout>
   )
 }

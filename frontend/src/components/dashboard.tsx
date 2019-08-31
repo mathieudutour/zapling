@@ -4,11 +4,10 @@ import { useGlobalState } from '../store'
 import StripeConnectNotice from './stripe-connect-notice'
 import './dashboard.css'
 
-const Dashboard = ({ hideNoCheckoutWarning }) => {
+const Dashboard = ({ hideStripNotice }) => {
   const [user] = useGlobalState('user')
 
-  // @M can we remove this `hideNoCheckoutWarning` now?
-  const isSetup = hideNoCheckoutWarning || !!user.subscriptionId
+  const isSetup = hideStripNotice || !!user.subscriptionId
 
   return (
     <section className="wrapper" style={{ padding: '30px 0' }}>

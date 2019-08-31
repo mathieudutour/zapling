@@ -5,10 +5,14 @@ import User from '../models/user'
 import { login } from '../utils/auth'
 
 const Signup = () => {
+  const [loading, setLoading] = React.useState(false)
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const email = e.target[0].value
     const password = e.target[1].value
+
+    setLoading(true)
 
     fetch(`${process.env.GATSBY_API_URL}/signup`, {
       method: 'POST',
@@ -36,8 +40,10 @@ const Signup = () => {
             sessionId: data.checkoutSessionId,
           })
         }
+        setLoading(false)
       })
       .catch(async message => {
+        setLoading(false)
         alert(message)
         console.error(message)
       })
@@ -61,7 +67,7 @@ const Signup = () => {
             style={{ marginTop: '10px' }}
           />
         </label>
-        <Button submit>Sign up</Button>
+        <Button submit>{loading ? 'Signing up...' : 'Sign up'}</Button>
       </div>
     </form>
   )

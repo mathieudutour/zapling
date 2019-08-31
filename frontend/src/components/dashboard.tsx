@@ -7,7 +7,7 @@ import Button from './button'
 const Dashboard = ({ hideNoCheckoutWarning }) => {
   const [user] = useGlobalState('user')
 
-  const isSetup = !hideNoCheckoutWarning && !!user.subscriptionId
+  const isSetup = hideNoCheckoutWarning || !!user.subscriptionId
 
   return (
     <section className="wrapper" style={{ padding: '30px 0' }}>

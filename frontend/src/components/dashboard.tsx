@@ -42,7 +42,7 @@ const Dashboard = ({ hideNoCheckoutWarning }) => {
       </p>
       <a
         className="button"
-        href=""
+        href="https://zapier.com/developer/public-invite/25892/691d5e59d5150f46b790d57edbdff47d/"
         rel="noopener noreferrer"
         style={{ display: 'inline-block', margin: '0 0 20px 30px' }}
         target="_blank"

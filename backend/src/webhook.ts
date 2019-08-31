@@ -61,7 +61,7 @@ export const zapierPlantTree = _handler(async event => {
 
   await stripe.usageRecords.create(subscription.items.data[0].id, {
     quantity,
-    timestamp: Date.now() / 1000,
+    timestamp: Math.floor(Date.now() / 1000),
   })
 
   data = await updateUser(data, {

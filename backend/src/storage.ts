@@ -140,5 +140,5 @@ export const createUser = async (
       Item: user,
     })
     .promise()
-  return data
+  return user
 }

@@ -3,6 +3,8 @@ import Button from './button'
 import User from '../models/user'
 import { login } from '../utils/auth'
 
+import './form.css'
+
 const LoginForm = () => {
   const [loading, setLoading] = React.useState(false)
 
@@ -43,16 +45,17 @@ const LoginForm = () => {
   }
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className="form">
       <div className="wrapper" style={{ marginTop: '30px' }}>
         <h2 style={{ position: 'relative', top: '14px' }}>Login</h2>
         <br />
-        <label style={{ display: 'block', marginBottom: '10px' }}>
+        <label>
           Email address
           <br />
           <input name="email" type="email" style={{ marginTop: '10px' }} />
         </label>
-        <label style={{ display: 'block', marginBottom: '20px' }}>
+        <br />
+        <label style={{ marginBottom: '20px' }}>
           Password
           <br />
           <input
@@ -61,6 +64,7 @@ const LoginForm = () => {
             style={{ marginTop: '10px' }}
           />
         </label>
+        <br />
         <Button submit>{loading ? 'Logging in...' : 'Log in'}</Button>
       </div>
     </form>

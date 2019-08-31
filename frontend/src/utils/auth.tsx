@@ -7,12 +7,14 @@ import { useEffect } from 'react'
 
 const storageKey = '__authState'
 
-const login = async (user: User) => {
+const login = async (user: User, redirect: boolean = true) => {
   if (typeof window !== 'undefined') {
     window.localStorage.setItem(storageKey, JSON.stringify(user))
   }
   setGlobalState('user', user)
-  await navigate('/dashboard')
+  if (redirect) {
+    await navigate('/dashboard')
+  }
 }
 
 const checkSession = () => {

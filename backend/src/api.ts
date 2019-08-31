@@ -1,11 +1,6 @@
 import * as bcrypt from 'bcryptjs'
 import * as Stripe from 'stripe'
-import {
-  findUserByApiKey,
-  findUserByEmail,
-  createUser,
-  updateUser,
-} from './storage'
+import { findUserByApiKey, findUserByEmail, createUser } from './storage'
 import { _handler } from './_handler'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
@@ -35,6 +30,8 @@ export const login = _handler(async event => {
     throw new BadRequest('Wrong password')
   }
 
+  delete data.password
+
   return {
     data,
   }
@@ -52,68 +49,38 @@ export const signup = _handler(async event => {
     throw new BadRequest('Existing user with that email')
   }
 
+  const customer = await stripe.customers.create({
+    email: existingUser.email,
+    metadata: {},
+  })
+
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    customer: customer.id,
+    customer_email: existingUser.email,
+    subscription_data: {
+      // @ts-ignore
+      items: [
+        {
+          plan: 'meteredtreeplanted',
+        },
+      ],
+    },
+    success_url: 'https://zapling.green/dashboard',
+    cancel_url: 'https://zapling.green/dashboard',
+  })
+
   const data = await createUser({
     email,
     password: await bcrypt.hash(password, 10),
+    checkoutSessionId: session.id,
+    stripeId: customer.id,
   })
+
+  delete data.password
 
   return {
     data,
-  }
-})
-
-export const subscribe = _handler(async event => {
-  let { apiKey, token } = JSON.parse(event.body)
-  if (!apiKey || !token) {
-    throw new BadRequest('Missing parameter')
-  }
-
-  const existingUser = await findUserByApiKey(apiKey)
-
-  if (!existingUser) {
-    throw new NotFound('Could not find the user')
-  }
-
-  if (!existingUser.stripeId) {
-    const customer = await stripe.customers.create({
-      email: existingUser.email,
-      source: token,
-      metadata: {},
-    })
-
-    await updateUser(existingUser, {
-      stripeId: customer.id,
-    })
-
-    existingUser.stripeId = customer.id
-  } else {
-    await stripe.customers.update(existingUser.stripeId, {
-      email: existingUser.email,
-      source: token,
-      metadata: {},
-    })
-  }
-
-  if (existingUser.subscriptionId) {
-    // there is already a subscription so we just needed to update the source
-    return { message: 'already have a subscription, all good' }
-  }
-
-  const subscription = await stripe.subscriptions.create({
-    customer: existingUser.stripeId,
-    items: [
-      {
-        plan: 'meteredtreeplanted',
-      },
-    ],
-  })
-
-  await updateUser(existingUser, {
-    subscriptionId: subscription.id,
-  })
-
-  return {
-    message: 'subscribed!',
   }
 })
 

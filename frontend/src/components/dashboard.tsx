@@ -7,7 +7,7 @@ import Button from './button'
 const Dashboard = () => {
   const [user] = useGlobalState('user')
 
-  const isSetup = !!user.stripeId
+  const isSetup = !!user.subscriptionId
 
   return (
     <section className="wrapper" style={{ padding: '30px 0' }}>
@@ -25,6 +25,10 @@ const Dashboard = () => {
             full
             onClick={e => {
               e.preventDefault()
+              const stripe = Stripe(process.env.GATSBY_STRIPE_PUBLIC_KEY)
+              stripe.redirectToCheckout({
+                sessionId: user.checkoutSessionId,
+              })
             }}
           >
             Setup

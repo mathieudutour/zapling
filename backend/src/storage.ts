@@ -12,6 +12,7 @@ export type User = {
   apiKey: string // used by zapier
   trees: number
   credit: number
+  checkoutSessionId?: string
   stripeId?: string
   subscriptionId?: string
 
@@ -29,13 +30,52 @@ export const findUserByApiKey = async (
     return Promise.resolve(undefined)
   }
   const meta = await db
-    .scan({
+    .query({
       TableName: process.env.USERS_TABLE_NAME,
+      IndexName: 'indexByApiKey',
       ProjectionExpression:
         'email, apiKey, trees, credit, subscriptionId, stripeId',
-      FilterExpression: 'apiKey = :apiKey',
+      KeyConditionExpression: 'apiKey = :apiKey',
       ExpressionAttributeValues: {
         ':apiKey': String(apiKey),
+      },
+    })
+    .promise()
+  return (meta || { Items: [] }).Items[0]
+}
+
+export const findUserByStripeId = async (
+  stripeId: String
+): Promise<User | undefined> => {
+  if (!stripeId) {
+    return Promise.resolve(undefined)
+  }
+  const meta = await db
+    .query({
+      TableName: process.env.USERS_TABLE_NAME,
+      IndexName: 'indexByStripeId',
+      KeyConditionExpression: 'stripeId = :stripeId',
+      ExpressionAttributeValues: {
+        ':stripeId': String(stripeId),
+      },
+    })
+    .promise()
+  return (meta || { Items: [] }).Items[0]
+}
+
+export const findUserByCheckoutSessionId = async (
+  checkoutSessionId: String
+): Promise<User | undefined> => {
+  if (!checkoutSessionId) {
+    return Promise.resolve(undefined)
+  }
+  const meta = await db
+    .query({
+      TableName: process.env.USERS_TABLE_NAME,
+      IndexName: 'indexByCheckoutSessionId',
+      KeyConditionExpression: 'checkoutSessionId = :checkoutSessionId',
+      ExpressionAttributeValues: {
+        ':checkoutSessionId': String(checkoutSessionId),
       },
     })
     .promise()
@@ -76,7 +116,9 @@ export const updateUser = async (
   return existingUser
 }
 
-export const createUser = async (data: Pick<User, 'email' | 'password'>) => {
+export const createUser = async (
+  data: Pick<User, 'email' | 'password' | 'checkoutSessionId' | 'stripeId'>
+) => {
   const user = {
     ...data,
     verified: false,

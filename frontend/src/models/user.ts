@@ -6,9 +6,11 @@ type UserType = {
   email: string
   emailToken: string
   lastSeenAt: number
-  stripeId?: string
+  stripeId: string
   trees: number
   verified: boolean
+  checkoutSessionId?: string
+  subscriptionId?: string
 }
 
 class User {
@@ -19,9 +21,11 @@ class User {
   email: string
   emailToken: string
   lastSeenAt: number
-  stripeId?: string
+  stripeId: string
   trees: number
   verified: boolean
+  checkoutSessionId?: string
+  subscriptionId?: string
 
   constructor(user: UserType) {
     this._id = user._id
@@ -34,6 +38,8 @@ class User {
     this.stripeId = user.stripeId
     this.trees = user.trees
     this.verified = user.verified
+    this.checkoutSessionId = user.checkoutSessionId
+    this.subscriptionId = user.subscriptionId
   }
 }
 

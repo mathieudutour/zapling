@@ -1,6 +1,11 @@
 import * as Stripe from 'stripe'
 import * as Airtable from 'airtable'
-import { findUserByApiKey, findUserByEmail, updateUser } from './storage'
+import {
+  findUserByApiKey,
+  findUserByStripeId,
+  updateUser,
+  findUserByCheckoutSessionId,
+} from './storage'
 import { _handler } from './_handler'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
@@ -72,6 +77,12 @@ function isSubscription(
   return object.object === 'subscription'
 }
 
+function isCheckoutSession(
+  object: Stripe.IObject
+): object is Stripe.checkouts.sessions.ICheckoutSession {
+  return object.object === 'checkout.session'
+}
+
 export const stripeWebhook = _handler(async event => {
   let sig = event.headers['Stripe-Signature']
   let stripeEvent: Stripe.events.IEvent
@@ -87,13 +98,36 @@ export const stripeWebhook = _handler(async event => {
   }
 
   switch (stripeEvent.type) {
+    case 'checkout.session.completed': {
+      const session = stripeEvent.data.object
+      if (isCheckoutSession(session)) {
+        const user = await findUserByCheckoutSessionId(session.id)
+        if (!user) {
+          return {
+            message: 'missing user',
+          }
+        }
+
+        await updateUser(user, {
+          // @ts-ignore
+          stripeId: session.customer,
+          // @ts-ignore
+          subscriptionId: session.subscription,
+          checkoutSessionId: undefined,
+        })
+
+        return {
+          message: 'removed subscription',
+        }
+      }
+    }
     case 'customer.subscription.deleted': {
       const subscription = stripeEvent.data.object
       if (isSubscription(subscription) && subscription.status !== 'active') {
         const customer = await stripe.customers.retrieve(
           subscription.customer as string
         )
-        const user = await findUserByEmail(customer.email)
+        const user = await findUserByStripeId(customer.email)
         if (!user) {
           return {
             message: 'missing user',
@@ -115,7 +149,7 @@ export const stripeWebhook = _handler(async event => {
         const customer = await stripe.customers.retrieve(
           subscription.customer as string
         )
-        const user = await findUserByEmail(customer.email)
+        const user = await findUserByStripeId(customer.id)
         if (!user) {
           return {
             message: 'missing user',

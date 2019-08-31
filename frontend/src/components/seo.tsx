@@ -33,6 +33,7 @@ function SEO({ description, lang, meta, title }) {
       }}
       title={title}
       titleTemplate={`%s | ${site.siteMetadata.title}`}
+      script={[{ src: 'https://js.stripe.com/v3/' }]}
       link={[
         {
           href:

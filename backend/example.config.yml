@@ -1,0 +1,7 @@
+# https://dashboard.stripe.com/test/apikeys
+STRIPE_PUBLIC_KEY: xxxxxxxxxxxxxxxxx
+STRIPE_SECRET_KEY: xxxxxxxxxxxxxxxxxxx
+STRIPE_ENDPOINT_SECRET: xxxxxxxxxxxxxxxxxxx
+
+AIRTABLE_API_KEY: xxxxxxxxxxxxxx
+AIRTABLE_TABLE_ID: xxxxxxxxxxxxxxx

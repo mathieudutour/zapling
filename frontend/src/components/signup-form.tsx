@@ -29,7 +29,13 @@ const Signup = () => {
         throw new Error(data.message)
       })
       .then(async ({ data }) => {
-        await login(new User(data))
+        await login(new User(data), false)
+        if (data.checkoutSessionId) {
+          const stripe = Stripe(process.env.GATSBY_STRIPE_PUBLIC_KEY)
+          await stripe.redirectToCheckout({
+            sessionId: data.checkoutSessionId,
+          })
+        }
       })
       .catch(async message => {
         alert(message)

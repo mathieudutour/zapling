@@ -42,14 +42,6 @@ functions:
           method: post
           path: signup
           cors: true
-  subscribe:
-    handler: src/api.subscribe
-    timeout: 30
-    events:
-      - http:
-          method: post
-          path: subscribe
-          cors: true
   me:
     handler: src/api.me
     events:
@@ -84,10 +76,21 @@ resources:
             AttributeType: S
           - AttributeName: apiKey
             AttributeType: S
+          - AttributeName: stripeId
+            AttributeType: S
         KeySchema:
           - AttributeName: email
             KeyType: HASH
         GlobalSecondaryIndexes:
+          - IndexName: indexByStripeId
+            KeySchema:
+              - AttributeName: stripeId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
           - IndexName: indexByApiKey
             KeySchema:
               - AttributeName: apiKey

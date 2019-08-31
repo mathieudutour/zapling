@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Link } from 'gatsby'
 
 import './button.css'
 
@@ -8,10 +9,21 @@ type Props = {
   onClick?: (e?: any) => void
   red?: boolean
   submit?: boolean
+  to?: string
 }
 
 const Button: React.FC<Props> = props => {
-  const { full, red, submit, onClick, children } = props
+  const { full, red, submit, onClick, children, to } = props
+  if (to) {
+    return (
+      <Link
+        to={to}
+        className={`button${full ? ' full' : ''}${red ? ' red' : ''}`}
+      >
+        {children}
+      </Link>
+    )
+  }
   return (
     <button
       className={`button${full ? ' full' : ''}${red ? ' red' : ''}`}

@@ -8,6 +8,7 @@
   font-weight: 700;
   padding: 7px 27px;
   text-transform: uppercase;
+  text-decoration: none;
 }
 
 .button:hover {

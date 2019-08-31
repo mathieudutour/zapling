@@ -1,5 +1,4 @@
 import React from 'react'
-import { navigate } from 'gatsby'
 
 import Button from '../components/button'
 import Layout from '../components/layout'
@@ -20,7 +19,9 @@ const IndexPage = () => (
           service more rewarding and help reforest the world—It only takes 2
           minutes.
         </p>
-        <Button full>Start here</Button>
+        <Button full to="/signup">
+          Start here
+        </Button>
       </div>
     </section>
     <section className="how-does-it-work">
@@ -79,14 +80,7 @@ const IndexPage = () => (
             page to learn more.
           </p>
         </div>
-        <Button
-          onClick={e => {
-            e.preventDefault()
-            navigate('/signup')
-          }}
-        >
-          Sign up
-        </Button>
+        <Button to="/signup">Sign up</Button>
       </div>
     </section>
     <section className="how-much-cost" id="pricing">
@@ -112,13 +106,7 @@ const IndexPage = () => (
             for $13.20. Once it’s paid, we’ll plant the trees.
           </p>
         </div>
-        <Button
-          red
-          onClick={e => {
-            e.preventDefault()
-            navigate('/signup')
-          }}
-        >
+        <Button red to="/signup">
           Sign up
         </Button>
       </div>
@@ -162,14 +150,7 @@ const IndexPage = () => (
           <p>Filling in your questionnaire</p>
           <p>- Typeform</p>
         </div>
-        <Button
-          onClick={e => {
-            e.preventDefault()
-            navigate('/signup')
-          }}
-        >
-          Start today
-        </Button>
+        <Button to="/signup">Start today</Button>
       </div>
     </section>
   </Layout>

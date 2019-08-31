@@ -60,7 +60,8 @@ export const signup = _handler(async event => {
     client_reference_id: customer.id,
     // @ts-ignore
     mode: 'setup',
-    success_url: 'https://zapling.green/dashboard',
+    success_url:
+      'https://zapling.green/dashboard?session_id={CHECKOUT_SESSION_ID}',
     cancel_url: 'https://zapling.green/dashboard',
   })
 

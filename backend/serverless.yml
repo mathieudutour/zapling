@@ -79,6 +79,8 @@ resources:
             AttributeType: S
           - AttributeName: stripeId
             AttributeType: S
+          - AttributeName: checkoutSessionId
+            AttributeType: S
         KeySchema:
           - AttributeName: email
             KeyType: HASH
@@ -86,6 +88,15 @@ resources:
           - IndexName: indexByStripeId
             KeySchema:
               - AttributeName: stripeId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
+          - IndexName: indexByCheckoutSessionId
+            KeySchema:
+              - AttributeName: checkoutSessionId
                 KeyType: HASH
             Projection:
               ProjectionType: ALL

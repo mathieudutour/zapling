@@ -4,10 +4,10 @@ import { useGlobalState } from '../store'
 import './dashboard.css'
 import Button from './button'
 
-const Dashboard = () => {
+const Dashboard = ({ hideNoCheckoutWarning }) => {
   const [user] = useGlobalState('user')
 
-  const isSetup = !!user.subscriptionId
+  const isSetup = !hideNoCheckoutWarning && !!user.subscriptionId
 
   return (
     <section className="wrapper" style={{ padding: '30px 0' }}>

@@ -7,7 +7,7 @@ import Dashboard from '../components/dashboard'
 import { useGlobalState } from '../store'
 import { withAuth } from '../utils/auth'
 
-const DashboardPage = () => {
+const DashboardPage = ({ location }) => {
   const [user] = useGlobalState('user')
 
   // If the user isn't logged in, move them to the login
@@ -19,7 +19,12 @@ const DashboardPage = () => {
   return (
     <Layout>
       <SEO title="Dashboard" />
-      <Dashboard />
+      <Dashboard
+        hideNoCheckoutWarning={
+          ((location || { search: '' }).search || '').indexOf('?session_id') !==
+          -1
+        }
+      />
     </Layout>
   )
 }

@@ -42,7 +42,11 @@ const IndexPage = () => (
         <div className="big">
           <p style={{ maxWidth: '800px' }}>
             Tree planting is done through our sister company,{' '}
-            <a href="https://offset.earth" target="_blank" rel="no-referrer">
+            <a
+              href="https://offset.earth/?r=5cf93dc278f4e5c015960a71"
+              target="_blank"
+              rel="no-referrer"
+            >
               Offset Earth
             </a>
             .

@@ -12,7 +12,7 @@ const SignupPage = () => {
 
   // If the user is logged in, navigate to the dashboard
   if (user) {
-    navigate('/')
+    navigate('/dashbaord')
     return null
   }
 

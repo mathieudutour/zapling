@@ -5,6 +5,10 @@
   text-align: center;
 }
 
+.green {
+  color: #27ae60;
+}
+
 .banner::before {
   content: '→ ';
 }

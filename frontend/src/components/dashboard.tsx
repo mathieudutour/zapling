@@ -16,7 +16,8 @@ const Dashboard = ({ hideStripNotice }) => {
       {isSetup ? (
         <div className="your-trees">
           <p className="big">
-            You've planted {user.trees} tree{user.trees === 1 ? '' : 's'}
+            You've planted <span className="green">{user.trees}</span> tree
+            {user.trees === 1 ? '' : 's'}
           </p>
           <p>
             Every time one of your zaps gets triggered, we plant a tree in your

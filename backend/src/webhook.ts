@@ -51,12 +51,15 @@ export const zapierPlantTree = _handler(async event => {
   }
 
   if (!data.subscriptionId) {
-    throw new BadRequest('The user is not subscribed')
+    throw new BadRequest(
+      "It seems that you haven't setup your credit card details yet. Please head to https://zapling.green/dashboard."
+    )
   }
 
   const quantity = typeof trees !== 'undefined' ? parseInt(trees, 10) : 1
+  const subscription = await stripe.subscriptions.retrieve(data.subscriptionId)
 
-  await stripe.usageRecords.create(data.subscriptionId, {
+  await stripe.usageRecords.create(subscription.items.data[0].id, {
     quantity,
     timestamp: Date.now(),
   })

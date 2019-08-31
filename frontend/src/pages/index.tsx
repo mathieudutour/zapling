@@ -101,7 +101,7 @@ const IndexPage = () => (
           </p>
 
           <p style={{ maxWidth: '800px' }}>
-            We’ll charge your card you at the end of each month.
+            We’ll charge your card at the end of each month.
           </p>
         </div>
         <div>

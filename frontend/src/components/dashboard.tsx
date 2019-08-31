@@ -15,7 +15,9 @@ const Dashboard = ({ hideNoCheckoutWarning }) => {
 
       {!isSetup && (
         <div className="stripe-notice">
-          <h4 style={{ marginBottom: '14px' }}>Stripe setup</h4>
+          <h4 style={{ marginBottom: '14px' }}>
+            First things first - connect Stripe
+          </h4>
           <p>
             In order to bill your card and plant trees, we need to link your
             account with Stripe. Stripe is a secure and trusted payment
@@ -33,12 +35,20 @@ const Dashboard = ({ hideNoCheckoutWarning }) => {
           >
             Setup
           </Button>
+          <p className="info">
+            <strong>Please note</strong>: While we're in beta we will use Stripe
+            in test-mode. Please use a Stripe test card to checkout.
+            <br />
+            The one we tend to use is <code>4242 4242 4242 4242</code> with a
+            zip code of <code>12345</code> and <code>US</code> as the country.
+            Use any future date and any 3 digits for the CCV.
+          </p>
         </div>
       )}
 
       <h4 style={{ marginBottom: '14px' }}>Your Zapier API key</h4>
       <p>
-        When setting up your first Zapling-Zap, you'll be asked to sign in to
+        When setting up your Zapling Zaps, you'll be asked to sign in to
         Zapling. Copy and paste the text below into the API Key field and it
         should authorise Zapier for your account.
       </p>
@@ -49,11 +59,13 @@ const Dashboard = ({ hideNoCheckoutWarning }) => {
       <div className="your-trees">
         <h4>Your trees</h4>
         <p>
-          Every time your zaps get triggered, we plant a tree in your name. At
-          the end of every month, we'll charge your card for the total tree
-          spend.
+          Every time one of your zaps gets triggered, we plant a tree in your
+          name! At the end of every month, we'll charge your card for the total
+          tree spend.
         </p>
-        <p className="big">{user.trees}</p>
+        <p className="big">
+          {user.trees} tree{user.trees === 1 ? '' : 's'}
+        </p>
       </div>
     </section>
   )

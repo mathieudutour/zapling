@@ -10,8 +10,6 @@ import { withAuth } from '../utils/auth'
 const LoginPage = () => {
   const [user] = useGlobalState('user')
 
-  console.log('user on login page', user)
-
   // If the user is logged in, navigate to the dashboard
   if (user) {
     navigate('/dashboard')

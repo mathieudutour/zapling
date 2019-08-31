@@ -108,16 +108,38 @@ export const stripeWebhook = _handler(async event => {
           }
         }
 
+        // @ts-ignore
+        const setupIntent = await stripe.setupIntents.retrieve(
+          // @ts-ignore
+          session.setup_intent
+        )
+
+        await stripe.paymentMethods.attach(setupIntent.payment_method, {
+          customer: user.stripeId,
+        })
+
+        if (user.subscriptionId) {
+          return {
+            message: 'attached the payment method',
+          }
+        }
+
+        const subscription = await stripe.subscriptions.create({
+          customer: user.stripeId,
+          items: [
+            {
+              plan: 'meteredtreeplanted',
+            },
+          ],
+        })
+
         await updateUser(user, {
-          // @ts-ignore
-          stripeId: session.customer,
-          // @ts-ignore
-          subscriptionId: session.subscription,
+          subscriptionId: subscription.id,
           checkoutSessionId: undefined,
         })
 
         return {
-          message: 'removed subscription',
+          message: 'attached the payment method and created the subscription',
         }
       }
     }

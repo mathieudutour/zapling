@@ -38,7 +38,7 @@ export const login = _handler(async event => {
 })
 
 export const signup = _handler(async event => {
-  let { email, password } = JSON.parse(event.body)
+  let { email, password } = JSON.parse(event.body || '{}')
   if (!email || !password) {
     throw new BadRequest('Missing parameter')
   }
@@ -50,25 +50,29 @@ export const signup = _handler(async event => {
   }
 
   const customer = await stripe.customers.create({
-    email: existingUser.email,
+    email,
     metadata: {},
   })
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
-    customer: customer.id,
-    customer_email: existingUser.email,
-    subscription_data: {
-      // @ts-ignore
-      items: [
-        {
-          plan: 'meteredtreeplanted',
-        },
-      ],
-    },
+    customer_email: email,
+    client_reference_id: customer.id,
+    // @ts-ignore
+    mode: 'setup',
+    // subscription_data: {
+    //   // @ts-ignore
+    //   items: [
+    //     {
+    //       plan: 'meteredtreeplanted',
+    //     },
+    //   ],
+    // },
     success_url: 'https://zapling.green/dashboard',
     cancel_url: 'https://zapling.green/dashboard',
   })
+
+  console.log(session)
 
   const data = await createUser({
     email,
@@ -78,6 +82,8 @@ export const signup = _handler(async event => {
   })
 
   delete data.password
+
+  console.log(data)
 
   return {
     data,

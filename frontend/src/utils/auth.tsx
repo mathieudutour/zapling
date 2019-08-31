@@ -17,7 +17,7 @@ const login = async (user: User, redirect: boolean = true) => {
   }
 }
 
-const checkSession = () => {
+const checkSession = async () => {
   if (typeof window === 'undefined') {
     setGlobalState('isLoadingUser', false)
     return
@@ -27,9 +27,30 @@ const checkSession = () => {
     setGlobalState('isLoadingUser', false)
     return
   }
+
   const user = new User(JSON.parse(_user))
-  setGlobalState('user', user)
-  setGlobalState('isLoadingUser', false)
+
+  try {
+    const response = await fetch(
+      `${process.env.GATSBY_API_URL}/me?apiKey=${user.apiKey}`,
+      {
+        method: 'GET',
+        mode: 'cors',
+      }
+    )
+
+    if (response.ok) {
+      const { data } = await response.json()
+      setGlobalState('user', new User(data))
+      setGlobalState('isLoadingUser', false)
+    } else {
+      setGlobalState('user', user)
+      setGlobalState('isLoadingUser', false)
+    }
+  } catch {
+    setGlobalState('user', user)
+    setGlobalState('isLoadingUser', false)
+  }
 }
 
 const logout = async () => {

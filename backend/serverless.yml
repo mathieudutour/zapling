@@ -26,6 +26,7 @@ provider:
         - 'dynamodb:*'
       Resource:
         - arn:aws:dynamodb:*:*:table/${self:custom.usersTableName}
+        - arn:aws:dynamodb:*:*:table/${self:custom.usersTableName}/*
 
 functions:
   login:

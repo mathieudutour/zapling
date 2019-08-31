@@ -11,11 +11,11 @@ type Props = {
 
 const Layout: React.FC<Props> = ({ children }) => {
   return (
-    <Fragment>
+    <div className="site">
       <Header />
-      <main>{children}</main>
+      <main className="site-content">{children}</main>
       <Footer />
-    </Fragment>
+    </div>
   )
 }
 

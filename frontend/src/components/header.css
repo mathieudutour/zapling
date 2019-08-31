@@ -5,6 +5,7 @@
   justify-content: space-between;
   margin: 34px auto 0;
   max-width: 1196px;
+  width: 100%;
 }
 
 @media only screen and (max-width: 1196px) {

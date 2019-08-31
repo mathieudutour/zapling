@@ -1,0 +1,34 @@
+.stripe-notice {
+  background: rgba(39, 174, 96, 0.2);
+  border-radius: 5px;
+  margin-bottom: 30px;
+  padding: 20px;
+}
+
+.stripe-notice p {
+  margin: 0 0 14px;
+}
+
+.stripe-notice .info,
+.stripe-notice .info code {
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.stripe-notice .info {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 14px 0 0;
+  padding-top: 10px;
+}
+
+.stripe-notice .info code {
+  background: grey;
+  color: white;
+  padding: 2px 3px;
+  margin: 0 5px;
+}
+
+.stripe-notice .info code::after {
+  letter-spacing: -10px;
+}

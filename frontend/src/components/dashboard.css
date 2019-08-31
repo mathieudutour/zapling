@@ -1,37 +1,3 @@
-.stripe-notice {
-  background: rgba(39, 174, 96, 0.2);
-  padding: 20px;
-  margin-bottom: 30px;
-}
-
-.stripe-notice p {
-  margin: 0 0 14px;
-}
-
-.stripe-notice .info,
-.stripe-notice .info code {
-  font-size: 14px;
-  line-height: 1.5;
-  color: rgba(0, 0, 0, 0.4);
-}
-
-.stripe-notice .info {
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  margin: 14px 0 0;
-  padding-top: 10px;
-}
-
-.stripe-notice .info code {
-  background: grey;
-  color: white;
-  padding: 2px 3px;
-  margin: 0 5px;
-}
-
-.stripe-notice .info code::after {
-  letter-spacing: -10px;
-}
-
 .banner {
   background: #27ae60;
   color: white;
@@ -47,16 +13,51 @@
   content: ' ←';
 }
 
+.your-trees {
+  margin-bottom: 30px;
+  padding: 20px;
+  border: 2px solid black;
+}
+
 .your-trees h4 {
   margin: 0 0 10px;
 }
 
 .your-trees p {
+  font-size: 16px;
   margin: 0;
 }
 
+.your-trees p:not(.big) {
+  opacity: 0.5;
+}
+
 .your-trees p.big {
-  font-size: 50px;
+  font-size: 44px;
   font-weight: 700;
-  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.one,
+.two,
+.three {
+  margin-bottom: 20px;
+  padding-left: 30px;
+  position: relative;
+}
+
+.one::before,
+.two::before,
+.three::before {
+  content: '1.';
+  position: absolute;
+  left: 0;
+}
+
+.two::before {
+  content: '2.';
+}
+
+.three::before {
+  content: '3.';
 }

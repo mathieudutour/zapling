@@ -60,19 +60,9 @@ export const signup = _handler(async event => {
     client_reference_id: customer.id,
     // @ts-ignore
     mode: 'setup',
-    // subscription_data: {
-    //   // @ts-ignore
-    //   items: [
-    //     {
-    //       plan: 'meteredtreeplanted',
-    //     },
-    //   ],
-    // },
     success_url: 'https://zapling.green/dashboard',
     cancel_url: 'https://zapling.green/dashboard',
   })
-
-  console.log(session)
 
   const data = await createUser({
     email,
@@ -82,8 +72,6 @@ export const signup = _handler(async event => {
   })
 
   delete data.password
-
-  console.log(data)
 
   return {
     data,

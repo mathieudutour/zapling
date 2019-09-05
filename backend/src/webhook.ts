@@ -52,7 +52,7 @@ export const zapierPlantTree = _handler(async event => {
 
   if (!data.subscriptionId) {
     throw new BadRequest(
-      "It seems that you haven't setup your credit card details yet. Please head to https://zapling.green/dashboard."
+      `It seems that you haven't setup your credit card details yet. Please head to ${process.env.FRONTEND_URL}/dashboard.`
     )
   }
 

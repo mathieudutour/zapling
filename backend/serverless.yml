@@ -20,6 +20,7 @@ provider:
     STRIPE_ENDPOINT_SECRET: ${file(./config.${self:provider.stage}.yml):STRIPE_ENDPOINT_SECRET}
     AIRTABLE_API_KEY: ${file(./config.${self:provider.stage}.yml):AIRTABLE_API_KEY}
     AIRTABLE_TABLE_ID: ${file(./config.${self:provider.stage}.yml):AIRTABLE_TABLE_ID}
+    FRONTEND_URL: ${file(./config.${self:provider.stage}.yml):FRONTEND_URL}
   iamRoleStatements:
     - Effect: 'Allow'
       Action:

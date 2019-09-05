@@ -1,7 +1,11 @@
-# https://dashboard.stripe.com/test/apikeys
+# The URL when the frontend is deployed
+FRONTEND_URL: https://zapling.green
+
+# https://dashboard.stripe.com/apikeys
 STRIPE_PUBLIC_KEY: xxxxxxxxxxxxxxxxx
 STRIPE_SECRET_KEY: xxxxxxxxxxxxxxxxxxx
 STRIPE_ENDPOINT_SECRET: xxxxxxxxxxxxxxxxxxx
 
+# The Airtable API key and Table ID when the trees to plant will be added
 AIRTABLE_API_KEY: xxxxxxxxxxxxxx
 AIRTABLE_TABLE_ID: xxxxxxxxxxxxxxx

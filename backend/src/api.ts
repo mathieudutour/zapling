@@ -61,8 +61,8 @@ export const signup = _handler(async event => {
     // @ts-ignore
     mode: 'setup',
     success_url:
-      'https://zapling.green/dashboard?session_id={CHECKOUT_SESSION_ID}',
-    cancel_url: 'https://zapling.green/dashboard',
+      '${process.env.FRONTEND_URL}/dashboard?session_id={CHECKOUT_SESSION_ID}',
+    cancel_url: '${process.env.FRONTEND_URL}/dashboard',
   })
 
   const data = await createUser({

@@ -140,7 +140,7 @@ const IndexPage = () => (
     </section>
     <section className="example-zaps">
       <div className="wrapper">
-        <h2>Why do this?</h2>
+        <h2>Example Zaps</h2>
         <p>Reward your customers for doing good things like:</p>
         <div className="example">
           <p>Paying for your product or services</p>

@@ -32,14 +32,6 @@ const StripeConnectNotice: React.FC<Props> = ({ user }) => {
       >
         Setup billing
       </Button>
-      <p className="info">
-        <strong>Please note</strong>: While we're in beta we will use Stripe in
-        test-mode. Please use a Stripe test card to checkout.
-        <br />
-        The one we tend to use is <code>4242 4242 4242 4242</code> with a zip
-        code of <code>12345</code> and <code>US</code> as the country. Use any
-        future date and any 3 digits for the CCV.
-      </p>
     </div>
   )
 }

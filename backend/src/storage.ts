@@ -41,6 +41,7 @@ export const findUserByApiKey = async (
       },
     })
     .promise()
+  // @ts-ignore
   return (meta || { Items: [] }).Items[0]
 }
 
@@ -60,6 +61,7 @@ export const findUserByStripeId = async (
       },
     })
     .promise()
+  // @ts-ignore
   return (meta || { Items: [] }).Items[0]
 }
 
@@ -79,6 +81,7 @@ export const findUserByCheckoutSessionId = async (
       },
     })
     .promise()
+  // @ts-ignore
   return (meta || { Items: [] }).Items[0]
 }
 
@@ -96,6 +99,7 @@ export const findUserByEmail = async (
       },
     })
     .promise()
+  // @ts-ignore
   return (meta || { Item: undefined }).Item
 }
 
@@ -119,7 +123,7 @@ export const updateUser = async (
 export const createUser = async (
   data: Pick<User, 'email' | 'password' | 'checkoutSessionId' | 'stripeId'>
 ) => {
-  const user = {
+  const user: User = {
     ...data,
     verified: false,
     emailToken: await uidgen.generate(),

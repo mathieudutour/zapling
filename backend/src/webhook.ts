@@ -152,7 +152,7 @@ export const stripeWebhook = _handler(async event => {
         const customer = await stripe.customers.retrieve(
           subscription.customer as string
         )
-        const user = await findUserByStripeId(customer.email)
+        const user = await findUserByStripeId(customer.id)
         if (!user) {
           return {
             message: 'missing user',
